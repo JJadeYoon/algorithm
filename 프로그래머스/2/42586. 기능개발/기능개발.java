@@ -1,15 +1,24 @@
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
+
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
-        int[] dayOfend = new int[100];
-        int day = -1;
-        for(int i=0; i<progresses.length; i++) {
-            while(progresses[i] + (day*speeds[i]) < 100) {
-                day++;
+        List<Integer> answer = new ArrayList<>();
+        Queue<Integer> stack = new LinkedList<>();
+        
+        for (int i = 0; i < progresses.length; i++) {
+            double remain = (100 - progresses[i]) / (double) speeds[i];
+            int day = (int) Math.ceil(remain);
+            
+            if (!stack.isEmpty() && stack.peek() < day) {
+                answer.add(stack.size());
+                stack.clear();
             }
-            dayOfend[day]++;
+            
+            stack.offer(day);
         }
-        return Arrays.stream(dayOfend).filter(i -> i!=0).toArray();
+        
+        answer.add(stack.size());
+        
+        return answer.stream().mapToInt(i -> i).toArray();
     }
 }

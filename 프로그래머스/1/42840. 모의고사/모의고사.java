@@ -4,45 +4,31 @@ import java.util.List;
 
 class Solution {
     public int[] solution(int[] answers) {
-        int[] tester1 = {1, 2, 3, 4, 5};
-        int[] tester2 = {2, 1, 2, 3, 2, 4, 2, 5};
-        int[] tester3 = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
-        int[] scores = {0, 0, 0};
-        int[][] testers = {tester1, tester2, tester3};
 
-        for (int i = 0; i < scores.length; i++) {
-            scores[i] = evaluate(testers[i], answers);
-        }
+        int[][] testers = {
+                {1, 2, 3, 4, 5}, 
+                {2, 1, 2, 3, 2, 4, 2, 5}, 
+                {3, 3, 1, 1, 2, 2, 4, 4, 5, 5}
+        };
 
-        int maxScore = 0;
-        for (int s : scores) {
-            if (maxScore < s) {
-                maxScore = s;
+        int[] scores = new int[testers.length];
+        for (int i = 0; i < testers.length; i++) {
+            int count = 0;
+            for (int j = 0; j < answers.length; j++) {
+                if (testers[i][j % testers[i].length] == answers[j]) {
+                    count++;
+                }
             }
+            scores[i] = count;
         }
 
+        int maxScore = Math.max(scores[0], Math.max(scores[1], scores[2]));
         List<Integer> answer = new ArrayList<>();
         for (int i = 0; i < scores.length; i++) {
             if (maxScore == scores[i]) {
                 answer.add(i + 1);
             }
         }
-
         return answer.stream().mapToInt(i -> i).toArray();
-    }
-
-    private int evaluate(int[] tester, int[] answers) {
-        int count = 0;
-        int idx = 0;
-        for (int a : answers) {
-            if (tester[idx] == a) {
-                count++;
-            }
-            idx++;
-            if (idx == tester.length) {
-                idx = 0;
-            }
-        }
-        return count;
     }
 }

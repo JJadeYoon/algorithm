@@ -1,42 +1,28 @@
-import java.util.*;
-
 class Solution {
     public int solution(int n, int[] lost, int[] reserve) {
-        int answer = 0;
         
-        Arrays.sort(lost);
-        Arrays.sort(reserve);
-
-        List<Integer> lostList = new ArrayList<>();
+        int answer = n;
+        
+        int[] students = new int[n];
         for (int l : lost) {
-            lostList.add(l);
+            students[l - 1]--;
         }
-        List<Integer> reserveList = new ArrayList<>();
         for (int r : reserve) {
-            reserveList.add(r);
+            students[r - 1]++;
         }
         
-        for (int i = 1; i < n + 1; i++) {
-            if (!lostList.contains(i)) {
-                answer++;
-            } else {
-                if (reserveList.contains(i)) {
-                    answer++;
-                    lostList.remove(Integer.valueOf(i));
-                    reserveList.remove(Integer.valueOf(i));
+        for (int i = 0; i < n; i++) {
+            if (students[i] == -1) {
+                if (i > 0 && students[i - 1] > 0) {
+                    students[i - 1]--;
+                    students[i]++;
+                } else if (i + 1 < n && students[i + 1] > 0) {
+                    students[i + 1]--;
+                    students[i]++;
+                } else {
+                    answer--;
                 }
             }
-        }
-
-        for (int i = 0; i < lostList.size(); i++) {
-            int l = lostList.get(i);
-            if (reserveList.contains(l - 1)) {
-                reserveList.remove(Integer.valueOf(l - 1));
-                answer++;
-            } else if (reserveList.contains(l + 1)) {
-                reserveList.remove(Integer.valueOf(l + 1));
-                answer++;
-            } 
         }
         
         return answer;

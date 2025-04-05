@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 class Solution {
     public int solution(int[] numbers, int target) {
-        return dfs(numbers,  0, 0, target);
+        return dfs(numbers, 0, 0, target);
     }
 
     private int dfs(int[] numbers, int n, int sum, int target) {

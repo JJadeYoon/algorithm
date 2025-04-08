@@ -4,20 +4,15 @@ class Solution {
         int[][] dp = new int[len][len];
         dp[0][0] = triangle[0][0];
         for (int i = 1; i < len; i++) {
-            for (int j = 0; j <= i; j++) {
-                if (j == 0) {
-                    dp[i][j] = dp[i - 1][j] + triangle[i][j];
-                } else if (i == j) {
-                    dp[i][j] = dp[i - 1][j - 1] + triangle[i][j];
-                } else {
-                    dp[i][j] = Math.max(
-                            dp[i - 1][j - 1] + triangle[i][j],
-                            dp[i - 1][j] + triangle[i][j]
-                    );
-                }
+            dp[i][0] = dp[i - 1][0] + triangle[i][0];
+
+            for (int j = 1; j <= i; j++) {
+                dp[i][j] = Math.max(dp[i - 1][j - 1], dp[i - 1][j]) + triangle[i][j];
             }
+
+            dp[i][i] = dp[i - 1][i - 1] + triangle[i][i];
         }
-        
+
         int answer = 0;
         for (int t : dp[len - 1]) {
             if (answer < t) {

@@ -9,9 +9,9 @@ class Solution {
         for (String c : completion) {
             hm.put(c, hm.getOrDefault(c, 0) - 1);
         }
-        for (String k : hm.keySet()) {
-            if (hm.get(k) > 0) {
-                return k;
+        for (Map.Entry<String, Integer> e : hm.entrySet()) {
+            if (e.getValue() > 0) {
+                return e.getKey();
             }
         }
         return "";

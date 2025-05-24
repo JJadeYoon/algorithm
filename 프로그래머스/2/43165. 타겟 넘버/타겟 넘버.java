@@ -1,7 +1,7 @@
 class Solution {
 
     public int solution(int[] numbers, int target) {
-        return dfs(numbers, target, 1, numbers[0]) + dfs(numbers, target, 1, -numbers[0]);
+        return dfs(numbers, target, 0, 0);
     }
     
     private int dfs(int[] numbers, int target, int n, int sum) {

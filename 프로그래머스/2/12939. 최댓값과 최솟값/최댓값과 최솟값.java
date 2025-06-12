@@ -1,17 +1,10 @@
+import java.util.*;
+
 class Solution {
     public String solution(String s) {
-        String[] numbers = s.split(" ");
-        int min, max;
-        min = max = Integer.parseInt(numbers[0]);
-        for (int i = 1; i < numbers.length; i++) {
-            int n = Integer.parseInt(numbers[i]);
-            if (n < min) {
-                min = n;
-            }
-            if (n > max) {
-                max = n;
-            }
-        }
-        return min + " " + max;
+        String[] sArr = s.split(" ");
+        Arrays.sort(sArr, (a, b) -> (Integer.valueOf(a) - Integer.valueOf(b)));
+        String answer = sArr[0] + " " + sArr[sArr.length - 1];
+        return answer;
     }
 }

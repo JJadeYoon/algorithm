@@ -3,38 +3,34 @@ class Solution {
 
     public int solution(int n) {
         int[] board = new int[n];
-        boolean[] visited = new boolean[n];
-        backtrack(0, n, board, visited);
+        backtrack(0, n, board);
         return count;
     }
 
-    private void backtrack(int level, int n, int[] board, boolean[] visited) {
-        if (level == n) {
+    private void backtrack(int row, int n, int[] board) {
+        if (row == n) {
             count++;
             return;
         }
-        
-        for (int i = 0; i < n; i++) {
-            if (visited[i]) {
-                continue;
+
+        for (int col = 0; col < n; col++) {
+            if (isValid(row, col, board)) {
+                board[row] = col;
+                backtrack(row + 1, n, board);
             }
-            
-            boolean isValid = true;
-            for (int j = 1; j <= level; j++) {
-                int temp = level - j;
-                if (Math.abs(i - board[temp]) == j) {
-                    isValid = false;
-                    break;
-                }
-            }
-            if (!isValid) {
-                continue;
+        }
+    }
+
+    private boolean isValid(int row, int col, int[] board) {
+        for (int i = 0; i < row; i++) {
+            if (board[i] == col) {
+                return false;
             }
 
-            visited[i] = true;
-            board[level] = i;
-            backtrack(level + 1, n, board, visited);
-            visited[i] = false;
+            if (Math.abs(row - i) == Math.abs(col - board[i])) {
+                return false;
+            }
         }
+        return true;
     }
 }

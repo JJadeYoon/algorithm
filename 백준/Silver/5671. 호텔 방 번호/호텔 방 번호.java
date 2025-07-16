@@ -29,15 +29,13 @@ public class Main {
     }
 
     private static boolean isValid(int n) {
-        int[] numbers = new int[10];
+        boolean[] numbers = new boolean[10];
         while (n > 0) {
-            numbers[n % 10]++;
-            n /= 10;
-        }
-        for (int i = 0; i < 10; i++) {
-            if (numbers[i] > 1) {
+            if (numbers[n % 10]) {
                 return false;
             }
+            numbers[n % 10] = true;
+            n /= 10;
         }
         return true;
     }

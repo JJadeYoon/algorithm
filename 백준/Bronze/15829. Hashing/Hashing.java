@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Arrays;
 
 public class Main {
 
@@ -11,18 +12,17 @@ public class Main {
         int l = Integer.parseInt(br.readLine());
         char[] target = br.readLine().toCharArray();
 
-        int answer = 0;
+        long[] dp = new long[l];
+        dp[0] = 1;
+        for (int i = 1; i < l; i++) {
+            dp[i] = dp[i - 1] * R_VALUE % M_VALUE;
+        }
+
+        long answer = 0;
         for (int i = 0; i < l; i++) {
             int intValue = (int) target[i] - (int) 'a' + 1;
-            answer += intValue * power(R_VALUE, i) % M_VALUE;
+            answer = (answer + intValue * dp[i] % M_VALUE) % M_VALUE;
         }
         System.out.print(answer);
-    }
-
-    private static int power(int base, int exponent) {
-        if (exponent == 0) {
-            return 1;
-        }
-        return base * power(base, exponent - 1);
     }
 }

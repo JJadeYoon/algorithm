@@ -5,40 +5,35 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st;
-
-        st = new StringTokenizer(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
-        String[] noListen = new String[n];
-        String[] noWatch = new String[m];
+
+        Set<String> l = new HashSet<>();
+        PriorityQueue<String> ls = new PriorityQueue<>();
 
         for (int i = 0; i < n; i++) {
-            noListen[i] = br.readLine();
+            l.add(br.readLine());
         }
-        for (int i = 0; i < m; i++) {
-            noWatch[i] = br.readLine();
-        }
-        Arrays.sort(noWatch);
-        br.close();
 
-        Set<String> set = new HashSet<>(Arrays.asList(noListen));
-        StringBuilder sb = new StringBuilder();
-
-        int count = 0;
         for (int i = 0; i < m; i++) {
-            if (set.contains(noWatch[i])) {
-                count++;
-                sb.append(noWatch[i]).append("\n");
+            String s = br.readLine();
+            if (l.contains(s)) {
+                ls.offer(s);
             }
         }
-        if (sb.length() > 0) {
-            sb.delete(sb.length() - 1, sb.length());
+
+        int size = ls.size();
+        bw.write(size + "\n");
+        for (int i = 0; i < size; i++) {
+            bw.write(ls.poll());
+            if (i < size - 1) {
+                bw.write('\n');
+            }
         }
 
-        bw.write(count + "\n");
-        bw.write(sb.toString());
         bw.flush();
+        br.close();
         bw.close();
     }
 }

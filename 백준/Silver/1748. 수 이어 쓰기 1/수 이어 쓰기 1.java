@@ -1,34 +1,24 @@
 import java.io.*;
-import java.util.*;
 
 class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
 
-        if (n < 10) {
-            System.out.print(n);
-            return;
-        }
+        int cnt = 0;
+        int prev = 1;
+        int numLen = 1;
 
-        int m = 0;
-        int temp = n;
-        while (temp > 0) {
-            temp /= 10;
-            m++;
-        }
-
-        int answer = 0;
-        int full = 9;
-        for (int i = 1; i <= m; i++) {
-            if (i == m) {
-                answer += (int) ((n - Math.pow(10, m - 1) + 1) * i);
+        while (prev <= n) {
+            if (prev * 10 > n) {
+                cnt += (n - prev + 1) * numLen;
             } else {
-                answer += full * i;
-                full *= 10;
+                cnt += numLen * (prev * 10 - prev);
             }
+            prev *= 10;
+            numLen++;
         }
 
-        System.out.print(answer);
+        System.out.print(cnt);
     }
 }

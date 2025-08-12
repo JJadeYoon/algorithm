@@ -12,18 +12,21 @@ class Main {
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        int[] dp = new int[n];
-        Arrays.fill(dp, 1);
+        List<Integer> lis = new ArrayList<>();
+        for (int i : arr) {
+            int pos = Collections.binarySearch(lis, i);
 
-        for (int i = 1; i < n; i++) {
-            for (int j = 0; j < i; j++) {
-                if (arr[j] < arr[i]) {
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
-                }
+            if (pos < 0) {
+                pos = -(pos + 1);
+            }
+
+            if (lis.size() == pos) {
+                lis.add(i);
+            } else {
+                lis.set(pos, i);
             }
         }
 
-        Arrays.sort(dp);
-        System.out.print(dp[n - 1]);
+        System.out.print(lis.size());
     }
 }

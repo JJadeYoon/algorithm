@@ -2,13 +2,18 @@ import java.io.*;
 import java.util.*;
 
 class Main {
-    private static class Edge {
+    private static class Edge implements Comparable<Edge> {
         int u, v, w;
 
         Edge(int u, int v, int w) {
             this.u = u;
             this.v = v;
             this.w = w;
+        }
+
+        @Override
+        public int compareTo(Edge o) {
+            return Integer.compare(this.w, o.w);
         }
     }
 
@@ -37,7 +42,7 @@ class Main {
                 return false;
             }
 
-            if (p[v] < p[u]) {
+            if (p[u] > p[v]) {
                 p[u] = v;
             } else if (p[u] < p[v]) {
                 p[v] = u;
@@ -45,6 +50,7 @@ class Main {
                 p[v] = u;
                 p[u]--;
             }
+
             return true;
         }
     }
@@ -56,7 +62,6 @@ class Main {
         int m = Integer.parseInt(st.nextToken());
 
         List<Edge> edges = new ArrayList<>();
-
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
             int u = Integer.parseInt(st.nextToken());
@@ -69,9 +74,9 @@ class Main {
     }
 
     private static int kruskal(int n, List<Edge> edges) {
-        Collections.sort(edges, (e1, e2) -> e1.w - e2.w);
-        UnionFind uf = new UnionFind(n);
+        Collections.sort(edges);
 
+        UnionFind uf = new UnionFind(n);
         List<Edge> mst = new ArrayList<>();
         int totalWeight = 0;
 
@@ -79,17 +84,13 @@ class Main {
             if (uf.union(edge.u, edge.v)) {
                 mst.add(edge);
                 totalWeight += edge.w;
-            }
 
-            if (mst.size() == n - 1) {
-                break;
+                if (mst.size() == n - 1) {
+                    break;
+                }
             }
         }
 
-        if (mst.size() == n - 1) {
-            return totalWeight;
-        } else {
-            return -1;
-        }
+        return mst.size() == n - 1 ? totalWeight : -1;
     }
 }

@@ -1,14 +1,6 @@
 -- 코드를 입력하세요
-# select USER_ID, PRODUCT_ID
-# from ONLINE_SALE
-# group by USER_ID and PRODUCT_ID
-# having count(*) > 1
-# order by USER_ID asc, PRODUCT_ID desc;
-
-SELECT DISTINCT o1.USER_ID, o1.PRODUCT_ID
-FROM ONLINE_SALE o1
-INNER JOIN ONLINE_SALE o2 
-    ON o1.USER_ID = o2.USER_ID 
-    AND o1.PRODUCT_ID = o2.PRODUCT_ID 
-    AND o1.ONLINE_SALE_ID != o2.ONLINE_SALE_ID
-ORDER BY USER_ID ASC, PRODUCT_ID DESC;
+select USER_ID, PRODUCT_ID
+from ONLINE_SALE
+group by USER_ID, PRODUCT_ID
+having count(*) > 1
+order by USER_ID asc, PRODUCT_ID desc;

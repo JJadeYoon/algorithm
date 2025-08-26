@@ -1,9 +1,7 @@
 -- 코드를 작성해주세요
-select pr.ITEM_ID, pr.ITEM_NAME, pr.RARITY
-from ITEM_INFO ch 
-    left join ITEM_TREE it
-        on ch.ITEM_ID = it.PARENT_ITEM_ID
-    join ITEM_INFO pr
-        on it.ITEM_ID = pr.ITEM_ID
-where ch.RARITY = 'RARE'
-order by ITEM_ID desc
+select c.ITEM_ID, c.ITEM_NAME, c.RARITY  -- 자식 정보 출력
+from ITEM_INFO p
+    join ITEM_TREE it on p.ITEM_ID = it.PARENT_ITEM_ID
+    join ITEM_INFO c on it.ITEM_ID = c.ITEM_ID
+where p.RARITY = 'RARE'  -- 부모가 RARE
+order by c.ITEM_ID desc  -- 자식 ID 기준

@@ -7,6 +7,7 @@ class Solution {
             ni.put(friends[i], i);
         }
         
+        int[] scores = new int[friends.length];
         int[][] records = new int[friends.length][friends.length];
         StringTokenizer st;
         for (String gift : gifts) {
@@ -14,21 +15,8 @@ class Solution {
             int g = ni.get(st.nextToken());
             int r = ni.get(st.nextToken());
             records[g][r]++;
-        }
-        
-        int[] scores = new int[friends.length];
-        for (int i = 0; i < friends.length; i++) {
-            int give = 0;
-            for (int g : records[i]) {
-                give += g;
-            }
-            
-            int receive = 0;
-            for (int j = 0; j < friends.length; j++) {
-                receive += records[j][i];
-            }
-            
-            scores[i] = give - receive;
+            scores[g]++;
+            scores[r]--;
         }
         
         int[] answers = new int[friends.length];

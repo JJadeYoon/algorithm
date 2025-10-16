@@ -1,7 +1,7 @@
 -- 코드를 작성해주세요
-select p.ID, count(c.ID) as CHILD_COUNT
-from ECOLI_DATA p
-    left join ECOLI_DATA c
-        on c.PARENT_ID = p.ID
-group by p.ID
-order by p.ID;
+select e1.ID, count(e2.id) as "CHILD_COUNT"
+from ecoli_data e1
+left join ecoli_data e2
+    on e1.id = e2.parent_id
+group by e1.id
+order by 1;

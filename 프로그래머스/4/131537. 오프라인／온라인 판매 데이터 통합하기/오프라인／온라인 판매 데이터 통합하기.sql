@@ -1,13 +1,16 @@
-select date_format(SALES_DATE, '%Y-%m-%d') as "SALES_DATE", PRODUCT_ID, USER_ID, SALES_AMOUNT
+select date_format(sales_date, '%Y-%m-%d') as SALES_DATE, PRODUCT_ID, USER_ID, SALES_AMOUNT
 from (
-    select SALES_DATE, PRODUCT_ID, USER_ID, SALES_AMOUNT
+    select sales_date, product_id, user_id, sales_amount
     from online_sale
-    where SALES_DATE >= '2022-03-01'
-        and SALES_DATE <= '2022-03-31'
+
+    
     union all
-    select SALES_DATE, PRODUCT_ID, null as USER_ID, SALES_AMOUNT
+    
+    select sales_date, product_id, null as user_id, sales_amount
     from offline_sale
-    where SALES_DATE >= '2022-03-01'
-        and SALES_DATE <= '2022-03-31'
+
 ) sales
-order by 1, 2, 3;
+where sales_date >= '2022-03-01' and sales_date <= '2022-03-31'
+order by 1, 2, 3
+
+

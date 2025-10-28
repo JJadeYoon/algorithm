@@ -2,18 +2,18 @@ import java.util.*;
 
 class Solution {
     boolean solution(String s) {
-        Deque<Character> stack = new LinkedList<>();
+        Stack<Character> st = new Stack<>();
+        
         for (char c : s.toCharArray()) {
             if (c == '(') {
-                stack.push(c);
+                st.push(c);
+            } else if (!st.isEmpty()){
+                st.pop();
             } else {
-                if (stack.isEmpty()) {
-                    return false;
-                } else {
-                    stack.pop();
-                }
+                return false;
             }
         }
-        return stack.isEmpty();
+
+        return st.isEmpty();
     }
 }

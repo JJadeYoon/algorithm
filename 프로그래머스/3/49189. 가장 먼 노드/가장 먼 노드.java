@@ -42,8 +42,6 @@ class Solution {
             }
         }
         
-        System.out.println(Arrays.toString(distance));
-        
         int maxDist = distance[1];
         for (int i = 2; i <= n; i++) {
             maxDist = Math.max(maxDist, distance[i]);

@@ -1,23 +1,19 @@
 class Solution {
+    private int answer = 0;
     
-    private int num = 0;
-
     public int solution(int[] numbers, int target) {
-        dfs(0, target, numbers, 0);
-        return num;
+        dfs(numbers, target, 0, 0);
+        return answer;
     }
     
-    private void dfs(int cumm, int target, int[] numbers, int currIdx) {
-        if (currIdx == numbers.length) {
-            if (cumm == target){
-                num++;    
+    private void dfs(int[] numbers, int target, int idx, int total) {
+        if (idx == numbers.length) {
+            if (total == target) {
+                answer++;
             }
             return;
         }
-        
-        dfs(cumm + numbers[currIdx], target, numbers, currIdx + 1);
-        dfs(cumm - numbers[currIdx], target, numbers, currIdx + 1);
-        
-        return;
+        dfs(numbers, target, idx + 1, total + numbers[idx]);
+        dfs(numbers, target, idx + 1, total - numbers[idx]);
     }
 }

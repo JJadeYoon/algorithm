@@ -1,48 +1,48 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st;
         int m = Integer.parseInt(br.readLine());
-        Set<Integer> s = new HashSet<>();
-
+        int s = 0;
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
-            switch (st.nextToken()) {
+            String comm = st.nextToken();
+            int value;
+            switch (comm) {
                 case "add":
-                    s.add(Integer.parseInt(st.nextToken()));
+                    value = Integer.parseInt(st.nextToken());
+                    s |= 1 << (value - 1);
                     break;
                 case "remove":
-                    s.remove(Integer.parseInt(st.nextToken()));
+                    value = Integer.parseInt(st.nextToken());
+                    s &= ~(1 << (value - 1));
                     break;
                 case "check":
-                    if (s.contains(Integer.parseInt(st.nextToken()))) {
+                    value = Integer.parseInt(st.nextToken());
+                    if ((s & (1 << (value - 1))) > 0) {
                         bw.write("1\n");
                     } else {
                         bw.write("0\n");
                     }
                     break;
                 case "toggle":
-                    int value = Integer.parseInt(st.nextToken());
-                    if (!s.remove(value)) {
-                        s.add(value);
-                    }
+                    value = Integer.parseInt(st.nextToken());
+                    s ^= 1 << (value) - 1;
                     break;
                 case "all":
-                    s.clear();
-                    for (int j = 1; j <= 20; j++) {
-                        s.add(j);
-                    }
-                    break;
-                case "empty":
-                    s.clear();
+                    s = (1 << 20) - 1;
                     break;
                 default:
-                    break;
-
+                    s = 0;
             }
         }
         bw.flush();

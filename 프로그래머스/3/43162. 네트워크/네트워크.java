@@ -1,34 +1,24 @@
-import java.util.*;
-
 class Solution {
-    
     public int solution(int n, int[][] computers) {
+        int answer = 0;
         boolean[] visited = new boolean[n];
-        int count = 0;
-        
-        for (int i = 0; i < computers.length; i++) {
-            if (visited[i]) {
-                continue;
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                dfs(n, computers, i, visited);
+                answer++;
             }
-            
-            visited[i] = true;
-            count++;
-            dfs(computers, visited, i, n);
         }
-        
-        return count;
+        return answer;
     }
     
-    public void dfs(int[][] computers, boolean[] visited, int curr, int n) {
-        int[] conn = computers[curr];
+    private void dfs(int n, int[][] computers, int curr, boolean[] visited) {
+        if (visited[curr]) {
+            return;
+        }
+        visited[curr] = true;
         for (int i = 0; i < n; i++) {
-            if (conn[i] == 1 && i != curr) {
-                if (visited[i]) {
-                    continue;
-                }
-
-                visited[i] = true;
-                dfs(computers, visited, i, n);
+            if (computers[curr][i] == 1) {
+                dfs(n, computers, i, visited);
             }
         }
     }

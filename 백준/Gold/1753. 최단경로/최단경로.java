@@ -10,8 +10,8 @@ public class Main {
     private static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
     private static class Edge {
-        int v;
-        int w;
+
+        int v, w;
 
         public Edge(int v, int w) {
             this.v = v;
@@ -20,23 +20,22 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-        final int INF = Integer.MAX_VALUE / 2;
-
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int V = Integer.parseInt(st.nextToken());
-        int E = Integer.parseInt(st.nextToken());
-
-        List<Edge>[] edges = new List[V + 1];
-        for (int i = 1; i <= V; i++) {
-            edges[i] = new ArrayList<>();
-        }
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
         int start = Integer.parseInt(br.readLine());
-        int[] dist = new int[V + 1];
+
+        final int INF = Integer.MAX_VALUE / 2;
+        int[] dist = new int[n + 1];
         Arrays.fill(dist, INF);
         dist[start] = 0;
 
+        List<Edge>[] edges = new List[n + 1];
+        for (int i = 1; i <= n; i++) {
+            edges[i] = new ArrayList<>();
+        }
 
-        for (int i = 0; i < E; i++) {
+        for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
             int u = Integer.parseInt(st.nextToken());
             int v = Integer.parseInt(st.nextToken());
@@ -44,36 +43,37 @@ public class Main {
             edges[u].add(new Edge(v, w));
         }
 
-        br.close();
-
         PriorityQueue<Edge> pq = new PriorityQueue<>(
             (e1, e2) -> {
-                return e1.w - e2.w;}
+                return e1.w - e2.w;
+            }
         );
-        pq.offer(new Edge(start, dist[start]));
 
+        pq.offer(new Edge(start, 0));
         while (!pq.isEmpty()) {
             Edge cur = pq.poll();
-            if (dist[cur.v] != cur.w) {
+            if (cur.w != dist[cur.v]) {
                 continue;
             }
             for (Edge nxt : edges[cur.v]) {
-                if (dist[nxt.v] <= dist[cur.v] + nxt.w) {
+                if (nxt.w + dist[cur.v] >= dist[nxt.v]) {
                     continue;
                 }
-                dist[nxt.v] = dist[cur.v] + nxt.w;
+                dist[nxt.v] = nxt.w + dist[cur.v];
                 pq.offer(new Edge(nxt.v, dist[nxt.v]));
             }
         }
 
-        for (int i = 1; i <= V; i++) {
+        for (int i = 1; i <= n; i++) {
             if (dist[i] == INF) {
-                bw.write("INF\n");
+                bw.write("INF");
             } else {
-                bw.write(dist[i] + "\n");
+                bw.write(dist[i] + "");
+            }
+            if (i != n) {
+                bw.write("\n");
             }
         }
-
         bw.flush();
         bw.close();
     }

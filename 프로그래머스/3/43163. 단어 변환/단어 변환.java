@@ -2,39 +2,45 @@ import java.util.*;
 
 class Solution {
     public int solution(String begin, String target, String[] words) {
+        Queue<String> wq = new ArrayDeque<>(); // words
+        Queue<Integer> sq = new ArrayDeque<>(); // steps
+        wq.offer(begin);
+        sq.offer(0);
         boolean[] visited = new boolean[words.length];
-        Queue<String> wordQueue = new ArrayDeque<>();
-        Queue<Integer> distQueue = new ArrayDeque<>();
-        wordQueue.offer(begin);
-        distQueue.offer(0);
-        while (!wordQueue.isEmpty()) {
-            String word = wordQueue.poll();
-            int dist = distQueue.poll();
-            if (word.equals(target)) {
-                return dist;
+        while(!wq.isEmpty()) {
+            String curw = wq.poll();
+            int curs = sq.poll();
+            if (target.equals(curw)) {
+                return curs;
             }
             
             for (int i = 0; i < words.length; i++) {
                 if (visited[i]) {
                     continue;
                 }
-                if (isChangeable(word, words[i])) {
-                    visited[i] = true;
-                    wordQueue.offer(words[i]);
-                    distQueue.offer(dist + 1);
+                String nxtw = words[i];
+                if (!isChangable(curw, nxtw)) {
+                    continue;
                 }
+                wq.offer(nxtw);
+                sq.offer(curs + 1);
+                visited[i] = true;
             }
         }
+        
         return 0;
     }
     
-    private boolean isChangeable(String from, String to) {
-        int count = 0;
+    private boolean isChangable(String from, String to) {
+        int diff = 0;
         for (int i = 0; i < from.length(); i++) {
             if (from.charAt(i) != to.charAt(i)) {
-                count++;
+                diff++;
+                if (diff > 1) {
+                    return false;
+                }
             }
         }
-        return count == 1;
+        return true;
     }
 }

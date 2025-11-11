@@ -1,34 +1,39 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 class Solution {
     public int[] solution(int[] answers) {
-
-        int[][] testers = {
-                {1, 2, 3, 4, 5}, 
-                {2, 1, 2, 3, 2, 4, 2, 5}, 
-                {3, 3, 1, 1, 2, 2, 4, 4, 5, 5}
+        int[] scores = new int[3];
+        final int[][] ans = {
+            {1, 2, 3, 4, 5},
+            {2, 1, 2, 3, 2, 4, 2, 5},
+            {3, 3, 1, 1, 2, 2, 4, 4, 5, 5}
         };
-
-        int[] scores = new int[testers.length];
-        for (int i = 0; i < testers.length; i++) {
-            int count = 0;
-            for (int j = 0; j < answers.length; j++) {
-                if (testers[i][j % testers[i].length] == answers[j]) {
-                    count++;
+        
+        for (int i = 0; i < answers.length; i++) {
+            for (int j = 0; j < ans.length; j++) {
+                if (answers[i] == ans[j][i % ans[j].length]) {
+                    scores[j]++;
                 }
             }
-            scores[i] = count;
         }
 
-        int maxScore = Math.max(scores[0], Math.max(scores[1], scores[2]));
-        List<Integer> answer = new ArrayList<>();
+        int maxScore = scores[0];
+        for (int i = 1; i < scores.length; i++) {
+            maxScore = Math.max(maxScore, scores[i]);
+        }
+        
+        List<Integer> arr = new ArrayList<>();
         for (int i = 0; i < scores.length; i++) {
-            if (maxScore == scores[i]) {
-                answer.add(i + 1);
+            if (scores[i] == maxScore) {
+                arr.add(i);
             }
         }
-        return answer.stream().mapToInt(i -> i).toArray();
+        
+        int[] answer = new int[arr.size()];
+        for (int i = 0; i < arr.size(); i++) {
+            answer[i] = arr.get(i) + 1;
+        }
+        
+        return answer;
     }
 }

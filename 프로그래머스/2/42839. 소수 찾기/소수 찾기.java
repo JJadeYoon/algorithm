@@ -1,58 +1,56 @@
 import java.util.*;
 
 class Solution {
+    
+    private Set<Integer> hs = new HashSet<>();
+    List<String> arr = new ArrayList<>();
+    
     public int solution(String numbers) {
-        int maxNum = 1;
-        for (int i = 0; i < numbers.length(); i++) {
-            maxNum *= 10;
+        backtrack(numbers, "", 0, new boolean[numbers.length()]);
+        System.out.println(hs);
+        
+        if (hs.contains(0)) {
+            hs.remove(0);
         }
-        maxNum -= 1;
-
-        boolean[] isPrimeNumber = new boolean[maxNum + 1];
-        Arrays.fill(isPrimeNumber, true);
-        isPrimeNumber[0] = false;
-        isPrimeNumber[1] = false;
-        for (int i = 2; i * i <= maxNum; i++) {
-            if (isPrimeNumber[i]) {
-                for (int j = i * i; j <= maxNum; j += i){
-                    isPrimeNumber[j] = false;
-                }
-            }
+        if (hs.contains(1)) {
+            hs.remove(1);
         }
         
         int answer = 0;
-        Set<Integer> hs = new HashSet<>();
-        for (int i = 1; i <= numbers.length(); i++) {
-            generatePermutationsOfLength(numbers, i, new boolean[numbers.length()], new StringBuilder(), hs);
-        }
-
-        for (int h : hs) {
-            if (isPrimeNumber[h]) {
-                System.out.println(h);
+        for (int i : hs) {
+            if (isPrime(i)) {
                 answer++;
             }
         }
-
+        
         return answer;
     }
-
-    private void generatePermutationsOfLength(String str, int len, boolean[] used, StringBuilder current, Set<Integer> result) {
-        if (current.length() == len) {
-            result.add(Integer.parseInt(current.toString()));
+    
+    private void backtrack(String numbers, String cur, int cnt, boolean[] visited) {
+        if (cnt == numbers.length()) {
+            if (cur.length() > 0) {
+                hs.add(Integer.parseInt(cur));   
+            }
             return;
         }
-
-        for (int i = 0; i < str.length(); i++) {
-            if (!used[i]) {
-                used[i] = true;
-                current.append(str.charAt(i));
-
-                generatePermutationsOfLength(str, len, used, current, result);
-
-                // 백트래킹
-                current.deleteCharAt(current.length() - 1);
-                used[i] = false;
+        
+        for (int i = 0; i < numbers.length(); i++) {
+            if (visited[i]) {
+                continue;
+            }
+            backtrack(numbers, cur, cnt + 1, visited);
+            visited[i] = true;
+            backtrack(numbers, cur + numbers.charAt(i), cnt + 1, visited);
+            visited[i] = false;
+        }
+    }
+    
+    private boolean isPrime(int num) {
+        for (int i = 2; i < num; i++) {
+            if (num % i == 0) {
+                return false;
             }
         }
+        return true;
     }
 }

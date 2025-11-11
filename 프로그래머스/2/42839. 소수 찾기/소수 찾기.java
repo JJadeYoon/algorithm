@@ -1,11 +1,10 @@
-import java.util.*;
+import java.util.*; 
 
 class Solution {
-    
     private Set<Integer> hs = new HashSet<>();
     
     public int solution(String numbers) {
-        backtrack(numbers, "", new boolean[numbers.length()]);
+        backtrack(numbers, new boolean[numbers.length()], "");
         
         int answer = 0;
         for (int i : hs) {
@@ -17,29 +16,27 @@ class Solution {
         return answer;
     }
     
-    private void backtrack(String str, String current, boolean[] visited) {
-        // 현재까지 만든 숫자가 있으면 Set에 추가
-        if (!current.isEmpty()) {
-            hs.add(Integer.parseInt(current));
+    private void backtrack(String numbers, boolean[] visited, String cur) {
+        if (cur.length() > 0) {
+            hs.add(Integer.parseInt(cur));
         }
         
-        // 모든 위치의 숫자를 시도
-        for (int i = 0; i < str.length(); i++) {
-            if (!visited[i]) {
-                visited[i] = true;
-                backtrack(str, current + str.charAt(i), visited);
-                visited[i] = false;
+        for (int i = 0; i < numbers.length(); i++) {
+            if (visited[i]) {
+                continue;
             }
+            visited[i] = true;
+            backtrack(numbers, visited, cur + numbers.charAt(i));
+            visited[i] = false;
         }
     }
     
-    private boolean isPrime(int num) {
-        if (num < 2) {
+    private boolean isPrime(int n) {
+        if (n < 2) {
             return false;
         }
-        
-        for (int i = 2; i * i <= num; i++) {
-            if (num % i == 0) {
+        for (int i = 2; i * i <= n; i++) {
+            if (n % i == 0) {
                 return false;
             }
         }

@@ -3,18 +3,9 @@ import java.util.*;
 class Solution {
     
     private Set<Integer> hs = new HashSet<>();
-    List<String> arr = new ArrayList<>();
     
     public int solution(String numbers) {
-        backtrack(numbers, "", 0, new boolean[numbers.length()]);
-        System.out.println(hs);
-        
-        if (hs.contains(0)) {
-            hs.remove(0);
-        }
-        if (hs.contains(1)) {
-            hs.remove(1);
-        }
+        backtrack(numbers, "", new boolean[numbers.length()]);
         
         int answer = 0;
         for (int i : hs) {
@@ -26,27 +17,28 @@ class Solution {
         return answer;
     }
     
-    private void backtrack(String numbers, String cur, int cnt, boolean[] visited) {
-        if (cnt == numbers.length()) {
-            if (cur.length() > 0) {
-                hs.add(Integer.parseInt(cur));   
-            }
-            return;
+    private void backtrack(String str, String current, boolean[] visited) {
+        // 현재까지 만든 숫자가 있으면 Set에 추가
+        if (!current.isEmpty()) {
+            hs.add(Integer.parseInt(current));
         }
         
-        for (int i = 0; i < numbers.length(); i++) {
-            if (visited[i]) {
-                continue;
+        // 모든 위치의 숫자를 시도
+        for (int i = 0; i < str.length(); i++) {
+            if (!visited[i]) {
+                visited[i] = true;
+                backtrack(str, current + str.charAt(i), visited);
+                visited[i] = false;
             }
-            backtrack(numbers, cur, cnt + 1, visited);
-            visited[i] = true;
-            backtrack(numbers, cur + numbers.charAt(i), cnt + 1, visited);
-            visited[i] = false;
         }
     }
     
     private boolean isPrime(int num) {
-        for (int i = 2; i < num; i++) {
+        if (num < 2) {
+            return false;
+        }
+        
+        for (int i = 2; i * i <= num; i++) {
             if (num % i == 0) {
                 return false;
             }

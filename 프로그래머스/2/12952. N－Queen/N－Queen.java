@@ -1,36 +1,41 @@
 class Solution {
-    private int count = 0;
-
+    
+    private int answer = 0;
+    
     public int solution(int n) {
-        int[] board = new int[n];
-        backtrack(0, n, board);
-        return count;
+        int[] visited = new int[n]; // i번째 행에 놓인 말의 컬럼 인덱스
+        backtrack(visited, 0);
+        
+        return answer;
     }
-
-    private void backtrack(int row, int n, int[] board) {
-        if (row == n) {
-            count++;
+    
+    // idx: 현재 방문 중인 행의 인덱스
+    private void backtrack(int[] visited, int idx) {
+        int n = visited.length;
+        
+        if (idx == n) {
+            answer++;
             return;
         }
-
-        for (int col = 0; col < n; col++) {
-            if (isValid(row, col, board)) {
-                board[row] = col;
-                backtrack(row + 1, n, board);
+        
+        for (int j = 0; j < n; j++) { // idx 행의 j 컬럼 확인
+            boolean isValid = true;
+            for (int i = 0; i < idx; i++) { // i 행의 공격 가능 확인
+                // 같은 컬럼 확인
+                if (j == visited[i]) {
+                    isValid = false;
+                    break;
+                }
+                // 대각선 확인
+                if ((idx - i) == Math.abs(j - visited[i])) {
+                    isValid = false;
+                    break;
+                }
+            }
+            if (isValid) {
+                visited[idx] = j;
+                backtrack(visited, idx + 1);
             }
         }
-    }
-
-    private boolean isValid(int row, int col, int[] board) {
-        for (int i = 0; i < row; i++) {
-            if (board[i] == col) {
-                return false;
-            }
-
-            if (Math.abs(row - i) == Math.abs(col - board[i])) {
-                return false;
-            }
-        }
-        return true;
     }
 }

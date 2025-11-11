@@ -3,17 +3,17 @@ import java.util.*;
 class Solution {
     public long solution(int n, int[] times) {
         Arrays.sort(times);
-        long left = 1;
-        long right = (long)times[times.length - 1] * n;
+        long l = 0;
+        long r = (long) n * times[times.length - 1];
         
-        long answer = right;
-        while (left <= right) {
-            long mid = (left + right) / 2;
+        long answer = r;
+        while (l <= r) {
+            long mid = (l + r) / 2;
             if (isPossible(mid, n, times)) {
                 answer = mid;
-                right = mid - 1;
+                r = mid - 1;
             } else {
-                left = mid + 1;
+                l = mid + 1;
             }
         }
         

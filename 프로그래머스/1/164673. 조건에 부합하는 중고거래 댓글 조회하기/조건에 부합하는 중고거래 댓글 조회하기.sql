@@ -1,7 +1,8 @@
-SELECT B.TITLE, B.BOARD_ID, R.REPLY_ID, R.WRITER_ID, R.CONTENTS, TO_CHAR(R.CREATED_DATE, 'YYYY-MM-DD') AS CREATED_DATE
-FROM USED_GOODS_BOARD B
-    join USED_GOODS_REPLY R
-        ON B.BOARD_ID = R.BOARD_ID
-WHERE B.CREATED_DATE >= DATE '2022-10-01'
-    AND B.CREATED_DATE < DATE '2022-11-01'
-ORDER BY 6, 1;
+-- 코드를 입력하세요
+select b.TITLE, b.BOARD_ID, r.REPLY_ID, r.WRITER_ID, r.CONTENTS, to_char(r.CREATED_DATE, 'YYYY-MM-DD') as "CREATED_DATE"
+from used_goods_board b
+    join used_goods_reply r 
+        on b.board_id = r.board_id
+where b.created_date >= date '2022-10-01'
+    and b.created_date < date '2022-11-01'
+order by r.CREATED_DATE, b.TITLE;

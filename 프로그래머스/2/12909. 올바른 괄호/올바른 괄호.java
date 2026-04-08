@@ -2,18 +2,20 @@ import java.util.*;
 
 class Solution {
     boolean solution(String s) {
-        Stack<Character> st = new Stack<>();
-        
+        Queue<Character> deque = new ArrayDeque<>();
         for (char c : s.toCharArray()) {
-            if (c == '(') {
-                st.push(c);
-            } else if (!st.isEmpty()){
-                st.pop();
+            if (deque.isEmpty()) {
+                deque.offer(c);
+                continue;
+            }
+            
+            if (c == ')') {
+                deque.poll();
             } else {
-                return false;
+                deque.offer(c);
             }
         }
-
-        return st.isEmpty();
+        
+        return deque.isEmpty() ? true : false;
     }
 }

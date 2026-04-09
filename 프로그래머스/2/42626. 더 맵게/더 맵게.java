@@ -7,15 +7,14 @@ class Solution {
             pq.offer(s);
         }
         
-        int answer = 0;
-        while (pq.peek() < K) {
-            pq.offer(pq.poll() + pq.poll() * 2);
-            answer++;
-            if (pq.size() <= 1 && pq.peek() < K) {
-                return -1;
-            }
+        int cnt = 0;
+        while (pq.size() > 1 && pq.peek() < K) {
+            int a = pq.poll();
+            int b = pq.poll();
+            pq.offer(a + b * 2);
+            cnt++;
         }
-
-        return answer;
+        
+        return pq.peek() >= K ? cnt : -1;
     }
 }

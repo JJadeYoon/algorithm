@@ -2,20 +2,21 @@ import java.util.*;
 
 class Solution {
     boolean solution(String s) {
-        Queue<Character> deque = new ArrayDeque<>();
-        for (char c : s.toCharArray()) {
-            if (deque.isEmpty()) {
-                deque.offer(c);
+        List<Character> al = new ArrayList<>();
+        int l = s.length();
+        for (int i = 0; i < l; i++) {
+            if (al.isEmpty()) {
+                al.add(s.charAt(i));
                 continue;
             }
             
-            if (c == ')') {
-                deque.poll();
+            if (s.charAt(i) == ')') {
+                al.removeLast();
             } else {
-                deque.offer(c);
+                al.add(s.charAt(i));
             }
         }
         
-        return deque.isEmpty() ? true : false;
+        return al.isEmpty() ? true : false;
     }
 }

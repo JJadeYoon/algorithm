@@ -1,19 +1,22 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 class Solution {
     public int solution(String[][] clothes) {
-
-        Map<String, Integer> map = new HashMap<>();
-        for (String[] clothe : clothes) {
-            map.put(clothe[1], map.getOrDefault(clothe[1], 0) + 1);
+        Map<String, Integer> hm = new HashMap<>();
+        
+        for (String[] c : clothes) {
+            hm.put(c[1], hm.getOrDefault(c[1], 0) + 1);
         }
-
-        int answer = 1;
-        for (String s : map.keySet()) {
-            answer *= map.get(s)+1;
+        
+        int answer = 0;
+        for (String k : hm.keySet()) {
+            System.out.println(k + " : " + hm.get(k));
+            if (answer == 0) {
+                answer = hm.get(k) + 1;
+                continue;
+            }
+            answer *= hm.get(k) + 1;
         }
-        answer -= 1;
-        return answer;
+        return answer - 1;
     }
 }

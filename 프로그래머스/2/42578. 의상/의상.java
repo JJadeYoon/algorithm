@@ -8,13 +8,8 @@ class Solution {
             hm.put(c[1], hm.getOrDefault(c[1], 0) + 1);
         }
         
-        int answer = 0;
+        int answer = 1;
         for (String k : hm.keySet()) {
-            System.out.println(k + " : " + hm.get(k));
-            if (answer == 0) {
-                answer = hm.get(k) + 1;
-                continue;
-            }
             answer *= hm.get(k) + 1;
         }
         return answer - 1;

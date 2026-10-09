@@ -1,66 +1,46 @@
 import java.util.*;
 
 class Solution {
-    
-    private static final int[][] directions = {
-        {1, 0}, {0, 1}, {-1, 0}, {0, -1}
+    private final int[][] directions = {
+        {1, 0}, {-1, 0}, {0, 1}, {0, -1}
     };
     
     public int solution(int[][] maps) {
+        int m = maps.length;
+        int n = maps[0].length;
         
-        int n = maps.length;
-        int m = maps[0].length;
+        Queue<Integer> qx = new ArrayDeque<>();
+        Queue<Integer> qy = new ArrayDeque<>();
+        Queue<Integer> qd = new ArrayDeque<>();
+        boolean[][] visited = new boolean[m][n];
         
-        boolean[][] visited = new boolean[n][m];
+        qx.offer(0);
+        qy.offer(0);
+        qd.offer(1);
         
-        Queue<Integer> xQ = new ArrayDeque<>();
-        Queue<Integer> yQ = new ArrayDeque<>();
-        Queue<Integer> tQ = new ArrayDeque<>();
-        
-        xQ.offer(0);
-        yQ.offer(0);
-        tQ.offer(1);
-        visited[0][0] = true;
-        
-        while (!xQ.isEmpty()) {
-            int currX = xQ.poll();
-            int currY = yQ.poll();
-            int currT = tQ.poll();
+        while (!qx.isEmpty()) {
+            int cx = qx.poll();
+            int cy = qy.poll();
+            int cd = qd.poll();
             
-            if (currX == n - 1 && currY == m - 1) {
-                return currT;
+            if (cx == m - 1 && cy == n - 1) {
+                return cd;
             }
             
             for (int[] dir : directions) {
-                int nextX = currX + dir[0];
-                int nextY = currY + dir[1];
+                int nx = cx + dir[0];
+                int ny = cy + dir[1];
                 
-                if (isValid(maps, visited, nextX, nextY)) {
-                    xQ.offer(nextX);
-                    yQ.offer(nextY);
-                    tQ.offer(currT + 1);
-                    visited[nextX][nextY] = true;
+                if (nx >= 0 && ny >= 0 && nx < m && ny < n 
+                    && !visited[nx][ny] && maps[nx][ny] == 1) {
+                    qx.offer(nx);
+                    qy.offer(ny);
+                    qd.offer(cd + 1);
+                    visited[nx][ny] = true;
                 }
             }
         }
         
         return -1;
-    }
-    
-    private boolean isValid(int[][] maps, boolean[][] visited, int x, int y) {
-        int n = maps.length;
-        int m = maps[0].length;
-        
-        if (x < 0 || y < 0 || x >= n || y >= m) {
-            return false;
-        }
-        if (maps[x][y] == 0) {
-            return false;
-        }
-        if (visited[x][y]) {
-            return false;
-        }
-        
-        return true;
     }
 }
